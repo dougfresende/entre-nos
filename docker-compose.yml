@@ -21,11 +21,15 @@ services:
       DATABASE_URL: postgres://entre_nos:entre_nos_local@database:5432/entre_nos
       PORT: 3001
       WEB_ORIGIN: http://localhost:5173
+      UPLOAD_DIR: /data/uploads
     ports:
       - "3001:3001"
     depends_on:
       database:
         condition: service_healthy
+    volumes:
+      - entre_nos_uploads:/data/uploads
 
 volumes:
   entre_nos_data:
+  entre_nos_uploads:
