@@ -1,0 +1,31 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: entre_nos
+      POSTGRES_USER: entre_nos
+      POSTGRES_PASSWORD: entre_nos_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - entre_nos_data:/var/lib/postgresql/data
+      - ./server/sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U entre_nos -d entre_nos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  api:
+    build: ./server
+    environment:
+      DATABASE_URL: postgres://entre_nos:entre_nos_local@database:5432/entre_nos
+      PORT: 3001
+      WEB_ORIGIN: http://localhost:5173
+    ports:
+      - "3001:3001"
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  entre_nos_data:

@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ChangeEvent } from 'react'
 import './App.css'
 
@@ -26,8 +26,36 @@ function Icon({ name }: { name: 'camera' | 'heart' | 'sparkle' | 'message' | 'ho
 function TagEntry({ token, onEnter }: { token: string; onEnter: () => void }) {
   const [name, setName] = useState('')
   const [consent, setConsent] = useState(false)
+  const [status, setStatus] = useState<'loading' | 'ready' | 'fallback' | 'error'>('loading')
+  const [message, setMessage] = useState('')
+  const [eventName, setEventName] = useState('Marina & Rafael')
+  const [label, setLabel] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const place = token.replace(/[-_]/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()) || 'Celebração'
-  return <main className="tag-shell"><div className="tag-mark">Entre Nós<span>memórias de um dia especial</span></div><section className="tag-entry" aria-labelledby="tag-title"><p className="section-eyebrow">ACESSO CONFIRMADO · {place}</p><div className="nfc-ring"><span>⌁</span></div><h1 id="tag-title">Você chegou ao nosso dia.</h1><p>Esta etiqueta abre o mesmo lugar que o QR Code do cartão. Conte para a gente como podemos chamar você.</p><label htmlFor="guest-name">Seu primeiro nome</label><input id="guest-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Ex.: Helena" autoComplete="given-name" /><label className="consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> <span>Concordo em participar e enviar memórias para Marina e Rafael.</span></label><button className="primary tag-button" disabled={!name.trim() || !consent} onClick={onEnter}>Entrar na celebração <Icon name="arrow" /></button><p className="tag-help">Sem NFC? Use a câmera para escanear o QR Code deste mesmo cartão.</p></section></main>
+  useEffect(() => {
+    async function resolveTag() {
+      try {
+        const response = await fetch(`/api/v1/tags/${encodeURIComponent(token)}`)
+        if (!response.ok) throw new Error('Etiqueta não encontrada ou desativada.')
+        const data = await response.json() as { tag: { label: string }; event: { coupleNames: string } }
+        setLabel(data.tag.label); setEventName(data.event.coupleNames); setStatus('ready')
+      } catch (error) {
+        if (import.meta.env.DEV) { setLabel(place); setStatus('fallback'); return }
+        setMessage(error instanceof Error ? error.message : 'Não foi possível abrir esta etiqueta.'); setStatus('error')
+      }
+    }
+    void resolveTag()
+  }, [token, place])
+  const enter = async () => {
+    if (status === 'fallback') return onEnter()
+    setSubmitting(true); setMessage('')
+    try {
+      const response = await fetch(`/api/v1/tags/${encodeURIComponent(token)}/sessions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, consent }) })
+      if (!response.ok) { const data = await response.json() as { error?: string }; throw new Error(data.error ?? 'Não foi possível iniciar sua sessão.') }
+      onEnter()
+    } catch (error) { setMessage(error instanceof Error ? error.message : 'Não foi possível iniciar sua sessão.') } finally { setSubmitting(false) }
+  }
+  return <main className="tag-shell"><div className="tag-mark">Entre Nós<span>memórias de um dia especial</span></div><section className="tag-entry" aria-labelledby="tag-title"><p className="section-eyebrow">{status === 'error' ? 'ACESSO INDISPONÍVEL' : `ACESSO CONFIRMADO · ${label || place}`}</p><div className="nfc-ring"><span>⌁</span></div><h1 id="tag-title">Você chegou ao nosso dia.</h1><p>Esta etiqueta abre o mesmo lugar que o QR Code do cartão. Conte para a gente como podemos chamar você.</p><label htmlFor="guest-name">Seu primeiro nome</label><input id="guest-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Ex.: Helena" autoComplete="given-name" /><label className="consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> <span>Concordo em participar e enviar memórias para {eventName}.</span></label><button className="primary tag-button" disabled={status === 'loading' || status === 'error' || submitting || !name.trim() || !consent} onClick={() => void enter()}>{submitting ? 'Entrando…' : 'Entrar na celebração'} <Icon name="arrow" /></button>{message && <p className="entry-error" role="alert">{message}</p>}<p className="tag-help">Sem NFC? Use a câmera para escanear o QR Code deste mesmo cartão.</p></section></main>
 }
 
 function App() {
