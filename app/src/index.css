@@ -1,0 +1,9 @@
+@font-face { font-family: 'Cormorant Garamond'; src: url('/fonts/CormorantGaramond.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: 'DM Sans'; src: url('/fonts/DMSans.ttf') format('truetype'); font-display: swap; }
+:root { font-family: 'DM Sans', sans-serif; color: #282b23; background: #f7f4ee; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+body { min-width: 320px; min-height: 100vh; margin: 0; }
+button, textarea { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, a:focus-visible, textarea:focus-visible { outline: 3px solid #45513d; outline-offset: 3px; }
+.visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; clip-path:inset(50%); }
