@@ -1,0 +1,56 @@
+[
+  {
+    "foreground": "ink",
+    "background": "canvas",
+    "ratio": 13.1,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "text-secondary",
+    "background": "canvas",
+    "ratio": 5.5,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "surface",
+    "background": "olive",
+    "ratio": 8.22,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "olive",
+    "background": "sage",
+    "ratio": 6.42,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "danger",
+    "background": "danger-soft",
+    "ratio": 5.68,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "warning",
+    "background": "warning-soft",
+    "ratio": 5.74,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "info",
+    "background": "info-soft",
+    "ratio": 6.4,
+    "minimum": 4.5
+  },
+  {
+    "foreground": "border-control",
+    "background": "surface",
+    "ratio": 4.07,
+    "minimum": 3
+  },
+  {
+    "foreground": "olive",
+    "background": "canvas",
+    "ratio": 7.66,
+    "minimum": 4.5
+  }
+]

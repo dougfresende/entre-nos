@@ -1,0 +1,46 @@
+/* Entre Nós 1.0 — importe antes de components.css */
+:root {
+  --en-canvas: #F7F4EE;
+  --en-surface: #FFFCF7;
+  --en-surface-muted: #EDE9E0;
+  --en-ink: #282B23;
+  --en-text-secondary: #626457;
+  --en-olive: #45513D;
+  --en-olive-hover: #35402F;
+  --en-olive-pressed: #283222;
+  --en-sage: #DDE3D5;
+  --en-border: #D9D4C9;
+  --en-border-control: #7A7E70;
+  --en-champagne: #B5A68A;
+  --en-danger: #9C3E35;
+  --en-danger-soft: #F8EAE6;
+  --en-warning: #78541C;
+  --en-warning-soft: #F4EBD5;
+  --en-info: #3B5960;
+  --en-info-soft: #E6EEEC;
+  --en-disabled-bg: #E4E1D9;
+  --en-disabled-text: #66695E;
+  --en-space-1: 4px;
+  --en-space-2: 8px;
+  --en-space-3: 12px;
+  --en-space-4: 16px;
+  --en-space-5: 20px;
+  --en-space-6: 24px;
+  --en-space-8: 32px;
+  --en-space-10: 40px;
+  --en-space-12: 48px;
+  --en-space-16: 64px;
+  --en-space-20: 80px;
+  --en-space-24: 96px;
+  --en-font-display: "Cormorant Garamond", Georgia, serif;
+  --en-font-ui: "DM Sans", system-ui, sans-serif;
+  --en-radius-small: 8px; --en-radius-control: 12px; --en-radius-card: 16px; --en-radius-sheet: 24px; --en-radius-pill: 999px;
+  --en-text-caption: 12px; --en-text-small: 14px; --en-text-body: 16px; --en-text-lead: 20px;
+  --en-text-card: 24px; --en-text-section: 32px; --en-text-page: 40px; --en-text-display: 64px;
+  --en-touch: 48px; --en-mobile-max: 560px; --en-content-max: 1200px;
+  --en-breakpoint-medium: 768px; --en-breakpoint-large: 1200px;
+  --en-motion-fast: 160ms; --en-motion-normal: 240ms;
+  --en-ease: cubic-bezier(.22,1,.36,1);
+  --en-shadow-card: 0 2px 8px rgb(40 43 35 / 5%);
+  --en-shadow-overlay: 0 12px 32px rgb(40 43 35 / 12%);
+}
