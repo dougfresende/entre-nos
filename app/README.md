@@ -12,3 +12,5 @@ npm run dev
 ## Limite atual
 
 Esta etapa é apenas frontend: não há autenticação, NFC/QR real, banco de dados, upload persistente ou painel de organização. O botão de mídia usa o seletor local do navegador e informa que a conexão será feita depois.
+
+Consulte [`docs/NFC_TAGS.md`](docs/NFC_TAGS.md) para gravar as tags de marketplace quando o domínio HTTPS estiver definido.

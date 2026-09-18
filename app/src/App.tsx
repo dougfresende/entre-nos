@@ -23,8 +23,16 @@ function Icon({ name }: { name: 'camera' | 'heart' | 'sparkle' | 'message' | 'ho
   return <svg aria-hidden="true" viewBox="0 0 24 24" className="icon">{paths[name]}</svg>
 }
 
+function TagEntry({ token, onEnter }: { token: string; onEnter: () => void }) {
+  const [name, setName] = useState('')
+  const [consent, setConsent] = useState(false)
+  const place = token.replace(/[-_]/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()) || 'Celebração'
+  return <main className="tag-shell"><div className="tag-mark">Entre Nós<span>memórias de um dia especial</span></div><section className="tag-entry" aria-labelledby="tag-title"><p className="section-eyebrow">ACESSO CONFIRMADO · {place}</p><div className="nfc-ring"><span>⌁</span></div><h1 id="tag-title">Você chegou ao nosso dia.</h1><p>Esta etiqueta abre o mesmo lugar que o QR Code do cartão. Conte para a gente como podemos chamar você.</p><label htmlFor="guest-name">Seu primeiro nome</label><input id="guest-name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Ex.: Helena" autoComplete="given-name" /><label className="consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /> <span>Concordo em participar e enviar memórias para Marina e Rafael.</span></label><button className="primary tag-button" disabled={!name.trim() || !consent} onClick={onEnter}>Entrar na celebração <Icon name="arrow" /></button><p className="tag-help">Sem NFC? Use a câmera para escanear o QR Code deste mesmo cartão.</p></section></main>
+}
+
 function App() {
   const [tab, setTab] = useState<Tab>('início')
+  const [entered, setEntered] = useState(!window.location.pathname.startsWith('/t/'))
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [note, setNote] = useState('')
   const [sentNote, setSentNote] = useState(false)
@@ -38,6 +46,7 @@ function App() {
     return <><section className="welcome" aria-labelledby="welcome-title"><div className="welcome-copy"><p className="section-eyebrow">17 DE SETEMBRO · CELEBRAMOS JUNTOS</p><h1 id="welcome-title">Marina <em>&</em> Rafael</h1><p className="intro">Que bom ter você aqui. Guarde os instantes que só os seus olhos perceberam.</p></div><figure className="memory-window"><img src="/conceito-entre-nos.png" alt="Conceito visual do álbum de Marina e Rafael" /><figcaption>Nosso dia, pelos seus olhos.</figcaption></figure></section><section className="action-area" aria-labelledby="share-title"><div><p className="section-eyebrow">COMEÇAR POR AQUI</p><h2 id="share-title">Compartilhe o que viveu.</h2><p>Fotos e vídeos entram no álbum após o envio.</p></div><button className="primary" onClick={() => upload.current?.click()}><Icon name="camera" /> Escolher fotos e vídeos <Icon name="arrow" /></button><input className="visually-hidden" ref={upload} type="file" accept="image/*,video/*" multiple onChange={chooseFiles} />{selectedFiles.length > 0 && <div className="file-notice" role="status"><Icon name="gallery" /><span>{selectedFiles.length} {selectedFiles.length === 1 ? 'arquivo selecionado' : 'arquivos selecionados'}<small>O envio real será conectado na próxima etapa.</small></span><button onClick={() => setSelectedFiles([])} aria-label="Remover arquivos">×</button></div>}</section><section className="quick-links" aria-label="Outras ações"><button onClick={() => setTab('missões')}><span className="round-icon"><Icon name="sparkle" /></span><span><strong>Suas missões</strong><small>1 lembrança esperando por você</small></span><Icon name="arrow" /></button><button onClick={() => setTab('recados')}><span className="round-icon"><Icon name="message" /></span><span><strong>Deixar um recado</strong><small>Uma mensagem só para os noivos</small></span><Icon name="arrow" /></button></section></>
   }
 
+  if (!entered) return <TagEntry token={window.location.pathname.split('/')[2] ?? ''} onEnter={() => setEntered(true)} />
   return <main className="app-shell"><header><a href="#top" className="wordmark">Entre Nós<span>memórias de um dia especial</span></a><button className="profile" aria-label="Abrir opções">MR</button></header><div id="top" className="page">{renderContent()}</div><nav aria-label="Navegação principal" className="bottom-nav">{([['início', 'home', 'Início'], ['álbum', 'gallery', 'Álbum'], ['missões', 'sparkle', 'Missões'], ['recados', 'message', 'Recados']] as const).map(([id, icon, label]) => <button key={id} aria-current={tab === id ? 'page' : undefined} className={tab === id ? 'active' : ''} onClick={() => setTab(id)}><Icon name={icon} /><span>{label}</span></button>)}</nav></main>
 }
 
