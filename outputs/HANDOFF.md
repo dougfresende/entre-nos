@@ -2,7 +2,7 @@
 
 ## Estado atual
 
-Pesquisa e planejamento concluídos em 17/09/2026. A direção visual do PNG foi aprovada pelo usuário e formalizada no Design System 1.0, com guia HTML interativo, tokens, componentes CSS e fontes locais. Não existe aplicação implementada neste workspace, checkout do PicPeak, implantação na VPS ou teste operacional. Não foram compradas ou gravadas etiquetas, instalados plugins, criados repositórios ou alteradas permissões. Este documento transfere contexto; não inicia outra tarefa automaticamente.
+Pesquisa e planejamento concluídos em 17/09/2026. A direção visual do PNG foi aprovada pelo usuário e formalizada no Design System 1.0. O repositório `dougfresende/entre-nos` já contém uma primeira aplicação Vite/React, API Express, migração PostgreSQL, Docker Compose, entrada por tag e painel inicial dos noivos. Ainda não há implantação na VPS, teste com tag física ou autenticação administrativa. Não foram compradas ou gravadas etiquetas, instalados plugins ou alteradas permissões.
 
 ## Pedido e decisões confirmadas pelo usuário
 
@@ -19,9 +19,12 @@ Pesquisa e planejamento concluídos em 17/09/2026. A direção visual do PNG foi
 Todos estão na pasta `outputs` deste workspace:
 
 1. `plano-entre-nos-nfc.md`: especificação principal, fontes pesquisadas, arquitetura proposta, regras de produto, cronograma e testes.
-2. `conceito-entre-nos.png`: conceito visual com três telas e cartão NFC. Nomes e fotos são fictícios. A direção visual foi aprovada; não representa interface implementada. A imagem é anterior à inclusão do QR alternativo: os materiais finais devem combinar símbolo NFC e QR legível.
-3. `inventario-conectores.md`: ferramentas expostas na sessão de pesquisa. Presença de ferramenta não comprova autenticação ou capacidade de hospedagem.
-4. `inventario-skills.md`: 367 arquivos SKILL.md e 274 nomes distintos encontrados no levantamento. Inclui cache e versões duplicadas; a lista ativa pode mudar entre sessões.
+2. `../README.md`: execução do monorepo, Compose e geração do kit de QR.
+3. `../app/`: frontend do convidado e prévia de `/organizar`.
+4. `../server/`: API, contrato de rotas, migração e gerador de QR.
+5. `conceito-entre-nos.png`: conceito visual com três telas e cartão NFC. Nomes e fotos são fictícios. A direção visual foi aprovada; não representa toda a interface implementada. A imagem é anterior à inclusão do QR alternativo.
+6. `inventario-conectores.md`: ferramentas expostas na sessão de pesquisa. Presença de ferramenta não comprova autenticação ou capacidade de hospedagem.
+7. `inventario-skills.md`: 367 arquivos SKILL.md e 274 nomes distintos encontrados no levantamento. Inclui cache e versões duplicadas; a lista ativa pode mudar entre sessões.
 
 ## Design System 1.0
 
@@ -33,7 +36,7 @@ Adaptar [PicPeak](https://github.com/PicPeak/picpeak), preservando avisos da lic
 
 Referência examinada: commit `d7f96333686216f5aa5fc6b919182aed663b9a60` de main. A API também indicava a release v3.132.4, publicada em 16/09/2026. Não confundir funcionalidades observadas em main com garantias dessa release. Fixar a referência adotada e executar testes antes de publicar imagens próprias.
 
-Stack proposta: React/TypeScript/Vite, Node/Express, PostgreSQL, Docker Compose e armazenamento persistente na VPS. Reutilizar galeria, processamento de mídia e feedback existentes. Acrescentar etiquetas, etapas, missões, depoimentos e avisos relacionados aos eventos e convidados existentes.
+Stack implementada como fundação: React/TypeScript/Vite, Node/Express, PostgreSQL, Docker Compose e volumes persistentes. A API já resolve tags, cria sessões, recebe mídia, grava recados e lista/envia missões. Falta autenticação administrativa, processamento/moderação de mídia, álbum público e implantação na VPS.
 
 Nenhuma execução de testes ou auditoria completa do PicPeak foi realizada. Foram lidos documentação e trechos de código, incluindo rotas de convidados, uploads e feedback. Não declarar a base segura ou pronta só por essa inspeção.
 
